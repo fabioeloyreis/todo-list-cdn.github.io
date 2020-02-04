@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TODO List - Vue CDN</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://cli.vuejs.org/favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+	* {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #20262E;
+      padding: 20px;
+      font-family: Helvetica;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #app {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    ol {
+      background: #fff;
+      border-radius: 4px;
+      padding: 16px 40px;
+      transition: all 0.2s;
+      margin-right: 20px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    h2 {
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    del {
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 4px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+
+    form .form-field {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    form .form-field.single {
+      flex-direction: row;
+    }
+
+    form .form-field label{
+      margin-right: 8px;
+    }
+
+    form input[type='text'] {
+      padding: 8px 12px;
+      min-width: 250px;
+      margin: 20px 0;
+    }
+
+    form button {
+      padding: 8px 12px;
+      margin-top: 20px;
+      background: #20262e;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
+
+    form button:active {
+      background: #000;
+    }
+    </style>
+	
+  </head>
+
+  <body>
+    <h2>Todo List</h2>
+    <div id="app">
+      <ol>
+        <li v-for="todo in todos">
+          <label>
+            <input type="checkbox" :checked="todo.done" @change="toggle(todo)">
+
+            <del v-if="todo.done">
+              {{ todo.text }}
+            </del>
+            <span v-else>
+              {{ todo.text }}
+            </span>
+          </label>
+        </li>
+      </ol>
+
+      <form @submit="addTodo" autocomplete="off">
+        <div class="form-field">
+          <label for="todo">Todo</label>
+          <input id="todo" type="text" v-model="todo" placeholder="Enter todo name..." />
+        </div>
+
+        <div class="form-field single">
+          <label for="done">Done?</label>
+          <input id="done" type="checkbox" v-model="done" />
+        </div>
+        <button type="button" @click="addTodo">
+          Add
+        </button>
+      </form>
+    </div>
+  </body>
+
+<script>
+	var app = new Vue({
+	  el: "#app",
+	  data: {
+	    todo: '',
+	    done: false,
+	    todos: [{
+		text: "Learn JavaScript",
+		done: false
+	      },
+	      {
+		text: "Learn Vue",
+		done: false
+	      },
+	      {
+		text: "Create Hello World",
+		done: false
+	      },
+	      {
+		text: "Build something awesome",
+		done: false
+	      }
+	    ]
+	  },
+	  methods: {
+	    toggle: function(todo) {
+	      todo.done = !todo.done
+	    },
+	    addTodo() {
+	      event.preventDefault();
+	      if (this.todo) {
+		this.todos.push({
+		  text: this.todo,
+		  done: this.done
+		})
+		this.todo = ''
+		this.done = false
+	      }
+	    }
+	  }
+	})
+
+</script>
+
+</html>
+
